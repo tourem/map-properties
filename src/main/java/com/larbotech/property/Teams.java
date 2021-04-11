@@ -1,4 +1,4 @@
-package com.larbotech.property;
+package com.bnpp.zephyr.tools.sonar.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Teams {
 
     private List<Team> teams = new ArrayList<>();
 
-    public void addProject(Team team) {
+    public void addTeam(Team team) {
         teams.add(team);
     }
 
@@ -22,8 +22,8 @@ public class Teams {
         return teams.stream().mapToDouble(Team::getCoverage).average().orElse(0d);
     }
 
-    public Long getLocs() {
-        return teams.stream().mapToLong(Team::getLocs).sum();
+    public Long getLineOfCode() {
+        return teams.stream().mapToLong(Team::getLineOfCode).sum();
     }
 
     public Integer getDebt() {
