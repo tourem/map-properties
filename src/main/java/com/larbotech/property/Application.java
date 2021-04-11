@@ -1,24 +1,29 @@
-package com.larbotech.property;
+package com.bnpp.zephyr.tools.sonar;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.bnpp.zephyr.tools.sonar.model.Teams;
+import com.bnpp.zephyr.tools.sonar.service.MeasureService;
+import com.bnpp.zephyr.tools.sonar.utils.ConsoleDisplay;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class Application implements CommandLineRunner {
 
-  public static void main(String[] args) {
-    List<Project> projects = new ArrayList<>();
+    @Autowired
+    private MeasureService measureService;
 
-    projects.add(new Project("Larbou", "etoe", 90.0, 2300L, 1445));
-    projects.add(new Project("Larbou", "asset2", 99.0, 200L, 145));
-    projects.add(new Project("Larbou", "fc", 100.0, 2800L, 2945));
-    projects.add(new Project("Larbou", "gao", 80.2, 50000L, 445));
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-    Show.showResultForTeam(new Team("Larbou", projects));
+    @Override
+    public void run(String... args) throws Exception {
+        Teams teams = measureService.getReport();
+        teams.getTeams().forEach(ConsoleDisplay::showResultForTeam);
 
-    // SpringApplication.run(Application.class, args);
-  }
+        ConsoleDisplay.showResultForTeams(teams);
+        System.exit(1);
+    }
 }
