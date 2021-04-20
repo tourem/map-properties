@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static org.apache.commons.math3.util.Precision.round;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class Team {
     }
 
     public Double getCoverage() {
-        return projects.stream().mapToDouble(Project::getCoverage).average().orElse(0d);
+        return round(projects.stream().mapToDouble(Project::getCoverage).average().orElse(0d),2);
 
     }
 
