@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.max;
+import static org.springframework.util.Assert.*;
 
 /**
  * Provides issue items
@@ -63,6 +64,7 @@ public class MeasureProvider {
     public List<Measure> getMeasures(String projectKey, String branch) throws BadSonarQubeRequestException {
         // send a request to sonarqube server and return th response as a json object
         // if there is an error on server side this method throws an exception
+        notNull(projectKey, "[precondition failed] - projectKey is required; it must not be null");
         String branchToAnalyze = getBranchLastAnalysisDateIfBranchIsEmpty(projectKey, branch);
 
         final JsonObject jsonObject = request(String.format(GET_MEASURES_PATH,
