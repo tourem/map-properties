@@ -1,6 +1,6 @@
 package com.bnpp.zephyr.tools.sonar.service;
 
-import com.bnpp.zephyr.tools.sonar.config.ProjectsConfig;
+import com.bnpp.zephyr.tools.sonar.config.ProjectTeamConfig;
 import com.bnpp.zephyr.tools.sonar.exception.BadSonarQubeRequestException;
 import com.bnpp.zephyr.tools.sonar.exception.SonarQubeException;
 import com.bnpp.zephyr.tools.sonar.model.*;
@@ -14,13 +14,13 @@ import java.util.Map;
 @Service
 public class MeasureService {
 
-    private final ProjectsConfig projectsConfig;
+    private final ProjectTeamConfig projectsConfig;
 
     private final MeasureProvider measureProvider;
 
     @Autowired
-    public MeasureService(ProjectsConfig projectsConfig, MeasureProvider measureProvider) {
-        this.projectsConfig = projectsConfig;
+    public MeasureService(ProjectTeamConfig projectTeamConfig, MeasureProvider measureProvider) {
+        this.projectsConfig = projectTeamConfig;
         this.measureProvider = measureProvider;
     }
 
@@ -33,11 +33,11 @@ public class MeasureService {
         return teams;
     }
 
-    private Team getReport(Map<String, ProjectsConfig.KeyBranch> squadConfig, SquadEnum squad) throws BadSonarQubeRequestException, SonarQubeException {
+    private Team getReport(Map<String, ProjectTeamConfig.KeyBranch> squadConfig, SquadEnum squad) throws BadSonarQubeRequestException, SonarQubeException {
         List<Measure> measures;
         Team team = new Team();
         team.setName(squad.name());
-        for (Map.Entry<String, ProjectsConfig.KeyBranch> entry : squadConfig.entrySet()) {
+        for (Map.Entry<String, ProjectTeamConfig.KeyBranch> entry : squadConfig.entrySet()) {
             measures = measureProvider.getMeasures(entry.getValue().getKey(), entry.getValue().getBranch());
             team.addProject(toProject(squad, entry.getKey(), measures));
         }
@@ -46,9 +46,9 @@ public class MeasureService {
 
 
     private Project toProject(SquadEnum squad, String projectName, List<Measure> measures) {
-        Double converage = measures.stream().filter(m -> MeasureType.COVERAGE.getName().equals(m.getMetric())).findFirst().map(c -> Double.parseDouble(c.getValue())).orElse(0d);
+        Double coverage = measures.stream().filter(m -> MeasureType.COVERAGE.getName().equals(m.getMetric())).findFirst().map(c -> Double.parseDouble(c.getValue())).orElse(0d);
         Integer debt = measures.stream().filter(m -> MeasureType.SQALE_INDEX.getName().equals(m.getMetric())).findFirst().map(c -> Integer.parseInt(c.getValue())).orElse(0);
         Long loc = measures.stream().filter(m -> MeasureType.NCLOC.getName().equals(m.getMetric())).findFirst().map(c -> Long.parseLong(c.getValue())).orElse(0L);
-        return new Project(squad.name(), projectName, converage, loc, debt);
+        return new Project(squad.name(), projectName, coverage, loc, debt);
     }
 }
