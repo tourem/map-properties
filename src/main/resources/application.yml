@@ -1,49 +1,28 @@
-server:
-  application:
-    name: InjectMapFromYAML
-    url: http://injectmapfromyaml.dev
-    description: How To Inject a map from a YAML File in Spring Boot
-  config:
-    ips:
-      - 10.10.10.10
-      - 10.10.10.11
-      - 10.10.10.12
-      - 10.10.10.13
-    filesystem:
-      - /dev/root
-      - /dev/md2
-      - /dev/md4
-  users: 
-    root:
-      username: root
-      password: rootpass
-    guest:
-      username: guest
-      password: guestpass
-      
+sonar:
+ url: https://host.sonar/api
+ token: token
+
+https.proxy:
+ host: host
+ port: 123
+ user: user
+ password: xxxx
+
+
+#disable the embedded web server in Spring Boot
+spring:
+ main:
+  web-application-type: none
+
 teams:
-  nb: 3
-  dna:
-    asset1:
-      key: toto
-      branch: dev
-    asset2:
-      key: key2
-      branch: team/dev
-  irma:
-    asset3:
-      key: key3
-      branch: dev
-    asset4:
-      key: key4
-      branch: team/develop
-  andy:
-    asset3:
-      key: key3
-      branch: dev
-    asset4:
-      key: key4
-      branch: team/develop
-    asset5:
-      key: key5
-      branch: release
+ sprint: 42
+ teamA:
+  projetA:
+   key: k1
+   branch: master
+  projetBg:
+   key: log
+ teamB:
+  projetB:
+   key: keB
+   branch: develop
