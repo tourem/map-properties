@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Consumer;
 
+import static com.bnpp.zephyr.tools.sonar.utils.Constants.*;
+
 @Slf4j
 public final class ConsoleDisplay {
 
@@ -21,12 +23,12 @@ public final class ConsoleDisplay {
 
         team.getProjects().forEach(project -> {
             at.addRule();
-            at.addRow(project.getTeam(), project.getName(), project.getCoverage(), project.getLineOfCode(),
+            at.addRow(project.getTeam(), project.getName(), project.getCoverage() + PERCENTAGE, project.getLineOfCode(),
                     project.readableDebt());
         });
 
         at.addRule();
-        at.addRow("Total", team.getName(), team.getCoverage(), team.getLineOfCode(), team.readableDebt());
+        at.addRow(TOTAL, team.getName(), team.getCoverage() + PERCENTAGE, team.getLineOfCode(), team.readableDebt());
         at.addRule();
         //log ne marche pas pour un bon display en console du table !!
         System.out.println(at.render());
@@ -34,7 +36,7 @@ public final class ConsoleDisplay {
     }
 
     public static void displayReport(Teams teams) {
-        displayHead("Récapitulatif", AsciiTable::addStrongRule);
+        displayHead(SUMMARY, AsciiTable::addStrongRule);
 
         AsciiTable at = new AsciiTable();
         at.addRule();
@@ -43,11 +45,11 @@ public final class ConsoleDisplay {
 
         teams.getTeams().forEach(team -> {
             at.addRule();
-            at.addRow(team.getName(), team.getCoverage(), team.getLineOfCode(), team.readableDebt());
+            at.addRow(team.getName(), team.getCoverage() + PERCENTAGE, team.getLineOfCode(), team.readableDebt());
         });
 
         at.addRule();
-        at.addRow("Total", teams.getCoverage(), teams.getLineOfCode(), teams.readableDebt());
+        at.addRow(TOTAL, teams.getCoverage() + PERCENTAGE, teams.getLineOfCode(), teams.readableDebt());
         at.addRule();
         // at.getContext().setGrid(A8_Grids.lineDoubleBlocks());
         //at.addHeavyRule();
