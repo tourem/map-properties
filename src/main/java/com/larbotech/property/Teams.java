@@ -1,16 +1,16 @@
 package com.bnpp.zephyr.tools.sonar.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
+import static org.apache.commons.math3.util.Precision.round;
 
 @Getter
 @Setter
 public class Teams {
-
-    private String name;
 
     private List<Team> teams = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class Teams {
     }
 
     public Double getCoverage() {
-        return teams.stream().mapToDouble(Team::getCoverage).average().orElse(0d);
+        return round(teams.stream().mapToDouble(Team::getCoverage).average().orElse(0d), 2);
     }
 
     public Long getLineOfCode() {
