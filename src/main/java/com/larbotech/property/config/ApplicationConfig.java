@@ -13,8 +13,6 @@ import java.net.Proxy;
 @Configuration
 public class ApplicationConfig {
 
-    private static final String GET_MEASURES_URI = "/api/measures";
-
     @Autowired
     private ProxyConfig proxyConfig;
     /**
@@ -36,7 +34,7 @@ public class ApplicationConfig {
 
 
     @Bean
-    public HttpConnector measureHttpConnector() {
+    public HttpConnector httpConnector() {
         // Initialize connexion information.
         final String proxyHost = proxyConfig.getHost();
         final Integer proxyUsedPort = proxyConfig.getPort();
@@ -46,7 +44,7 @@ public class ApplicationConfig {
         // Initialize http connector builder.
         final HttpConnector.Builder builder = HttpConnector.newBuilder()
                 .userAgent("tools-quality-gate")
-                .url(url + GET_MEASURES_URI);
+                .url(url);
 
         // Set SonarQube authentication token.
         builder.credentials(token, null);
