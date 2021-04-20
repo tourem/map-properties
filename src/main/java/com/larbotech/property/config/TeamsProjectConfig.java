@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "teams")
+@Validated
 public class ProjectTeamConfig {
     private String sprint;
     private Map<String, KeyBranch> dna;
